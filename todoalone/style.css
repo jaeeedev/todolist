@@ -1,0 +1,84 @@
+@font-face {
+  font-family: "EliceDigitalBaeum_Bold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/EliceDigitalBaeum_Bold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  text-align: center;
+  background: #33b1f0;
+  box-sizing: border-box;
+}
+input {
+  width: 500px;
+  height: 25px;
+  border: none;
+  padding: 10px;
+  border-radius: 43px;
+  margin: 12px;
+  margin-bottom: 20px;
+  background: #33b1f0;
+  box-shadow: 10px 10px 20px #2a93c7, -10px -10px 20px #3ccfff;
+}
+
+
+input:focus {
+  outline: none;
+}
+
+#btn {
+  font-family: "EliceDigitalBaeum_Bold";
+
+  border: none;
+  background: #33b1f0;
+  box-shadow: 10px 10px 20px #2a93c7, -10px -10px 20px #3ccfff;
+  border-radius: 30px;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+ul li {
+  font-family: "EliceDigitalBaeum_Bold";
+  position: relative;
+  right: 30px;
+  font-size: 16px;
+  padding: 5px;
+
+}
+h1 {
+  font-size: 57px;
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+form::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#writearea::-webkit-scrollbar {
+  display: none;
+}
+
+#writearea {
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  width: 600px;
+  height: 700px;
+  margin: 0 auto;
+
+}
+.del {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  padding: 10px 0px;
+  cursor: pointer;
+}

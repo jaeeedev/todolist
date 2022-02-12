@@ -1,0 +1,123 @@
+@import url("https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css");
+
+:root {
+  --black: rgb(59, 54, 54);
+}
+
+* {
+  text-align: center;
+  box-sizing: border-box;
+}
+
+body {
+  background: #eff0ea;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+header {
+  padding-top: 3rem;
+}
+header h1 {
+  font-size: 4.5rem;
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  color: rgb(255, 25, 25);
+}
+
+form {
+  width: 100%;
+}
+
+input {
+  width: 37rem;
+  height: 2rem;
+  border: 2px solid var(--black);
+  padding: 1.15rem;
+  border-radius: 43px;
+  margin: 1rem 0.5rem 3rem 0;
+  background: transparent;
+}
+
+input:focus {
+  outline: none;
+  font-size: 1rem;
+}
+
+input::placeholder {
+  font-size: 1rem;
+}
+
+#btn {
+  width: 5rem;
+  font-family: "NanumSquare";
+  font-weight: 800;
+  font-size: 1rem;
+  transform: rotate(-0.03deg);
+  border: 2px solid var(--black);
+  background: transparent;
+  border-radius: 30px;
+  padding: 0.62rem 0.8rem;
+  cursor: pointer;
+}
+
+#btn:hover {
+  background: rgb(255, 25, 25);
+  color: #fff;
+  border: 2px solid;
+}
+
+ul {
+  width: 100%;
+  padding: 0;
+}
+ul li {
+  display: flex;
+  font-family: "NanumSquare";
+  font-weight: 700;
+  position: relative;
+  font-size: 1.25rem;
+  padding: 7px;
+  transform: rotate(-0.03deg);
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 1rem;
+  margin-right: 1.2rem;
+}
+
+h1 {
+  font-size: 57px;
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+form::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#writearea::-webkit-scrollbar {
+  display: none;
+}
+
+#writearea {
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  width: 600px;
+  height: 35rem;
+  margin: 0 auto;
+}
+
+.del {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  padding: 10px 0px;
+  cursor: pointer;
+}

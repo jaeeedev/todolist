@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoList</title>
+    <script src="js/jquery-3.6.0.min.js">
+    </script>
+    <style>
+        @font-face {
+            font-family: 'SuncheonB';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/SuncheonB.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'SuncheonB';
+            color: #333;
+        }
+
+        h1 {
+            margin-top: 7rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+
+        }
+
+        .inputBox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .inputBox .userInput {
+            width: 50%;
+            margin-right: 10px;
+            padding: 0.5rem 1.5rem;
+            border-radius: 1rem;
+            border: 2px solid #666;
+            background: #333;
+            color: white;
+        }
+
+        .inputBox .userInput:focus {
+            outline: #666;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            background: #333;
+            border: 2px solid #666;
+            color: white;
+        }
+
+        button:active {
+            background: white;
+            color: #333;
+        }
+
+        .showList {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .showList li {
+            width: 65%;
+            padding: 5px;
+            transform: rotate(0.04deg);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .listBtn {
+            min-width: 65px;
+        }
+
+        .listBtn span {
+            cursor: pointer;
+        }
+
+
+        .adjustBox {
+            width: 70%;
+            margin: 0 auto;
+            margin-top: 3rem;
+            padding: 1rem;
+            text-align: center;
+            background: #333;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 1rem;
+        }
+
+        .adjustBox.active {
+            display: flex;
+        }
+
+        .adjust {
+            width: 80%;
+            background: #666;
+            border: none;
+            border-radius: 1rem;
+            margin: 1rem;
+            padding: 1rem;
+            color: white;
+            font-family: 'SuncheonB';
+            transform: rotate(0.04deg);
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .adjust:focus {
+            outline: none;
+        }
+
+        p {
+            word-break: break-all;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>TodoList</h1>
+    <form class="inputBox" autocomplete="off">
+        <input type="text" name="userInput" id="userInput" class="userInput" required />
+        <button class="inputBtn">add</button>
+    </form>
+
+
+    <ul class="showList">
+    </ul>
+
+    <div class="adjustBox">
+        <textarea name="adjust" id="adjust" class="adjust" cols="30" rows="3"></textarea>
+        <div class="adjustBtn">
+            <button type="button" class="confirmRewrite">수정</button>
+            <button type="button" class="cancelRewrite">취소</button>
+        </div>
+    </div>
+</body>
+
+<script>
+    $(function () {
+        let list = [];
+        init();
+
+        $(".inputBox").on("submit", addList);
+
+
+
+        function showList() {
+            const result = list.map((el, i) => `<li data-index="${i}">
+                <p>${el}</p>
+                <div class="listBtn">
+                <span class="rewrite" data-index="${i}">수정</span>
+                <span class="del" data-index="${i}">삭제</span>
+                </div>
+                </li>`).join("");
+            $(".showList").html(result);
+
+            //문제 해결 코드....
+            // let del = document.querySelectorAll(".del");
+            //del을 밖으로 빼니 동작 안함. list를 만들어 낸 직후에 돔을 읽어서 del을 불러오는게 가장 정확하겠지
+            // for (let i = 0; i < del.length; i++) {
+            //     del[i].addEventListener("click", deleteList);
+            // }
+            $(".del").each(function (index, item) {
+                item.addEventListener("click", deleteList)
+            })
+            //어차피 리스너 달아주는거라서 여기서 해도 무방. 함수가 트리거되는 시점이 아님
+            $(".rewrite").each(function (index, item) {
+                item.addEventListener("click", rewriteList)
+            })
+        }
+
+        function addList(e) {
+            e.preventDefault();
+            list.push($(".userInput").val());
+            $(".userInput").val("");
+            setStorage();
+            showList();
+        }
+
+        function setStorage() {
+            localStorage.setItem("localList", JSON.stringify(list));
+        }
+
+        function init() {
+            const getList = JSON.parse(localStorage.getItem("localList"));
+            list = getList;
+            showList();
+        }
+
+        function deleteList() {
+            let index = $(this).attr("data-index");
+            list.splice(index, 1); //리스트 변경
+            setStorage();
+            showList();
+            // location.reload();
+        }
+
+
+        function rewriteList() {
+            $(".adjustBox").show();
+            const index = $(this).attr("data-index");
+            console.log(index);
+            $(".confirmRewrite").off('click').on("click", () => {
+                if ($(".adjust").val() === "") alert("수정할 내용을 입력 해 주세요.");
+                else list[index] = $(".adjust").val();
+                setStorage();
+                showList();
+                $(".adjustBox").hide();
+                $(".adjust").val("");
+            })
+        }//내가 누른 모든 수정을 다같이 처리함,, ㄱ-;;;
+
+
+        $(".cancelRewrite").on("click", () => {
+            $(".adjustBox").hide();
+        })
+    });
+
+
+    //문제점 --> 추가한 직후에 삭제되지 않음. 삭제가 연속적으로 진행되지 않음
+    //addList 이후 삭제 버튼이 눌리지 않음, reload를 하지 않으면 x도 한번만 지워짐. 뭐지?
+    //해결 --> showList 안으로 삭제 이벤트 함수를 옮김.
+
+    //로컬 스토리지에 저장하고 -> 불러오고
+    //코드에서 로컬 스토리지의 데이터가 가장 먼저 렌더링되도록 만들어야 함
+    //그리고 이어서 반복되면 되는데 리스트를 어떻게 관리하지.... -> 리스트 덮어씌움
+    //삭제를 하려면 배열을 고치고 로컬 스토리지와 화면 업데이트
+    //화면 새로고침을 하면 함수들 동작하고 아니면 안함 뭐야
+
+    //textarea 태그를 담은 팝업창을 하나 만들고 class와 data-index 주기
+    //수정 버튼을 누르면 display:block 클래스 넣어서 눈에 보이게 만들고 수정 누르면 다음단계 취소 누르면 리턴
+    //contenteditable 값 받아서 실시간으로 변경할 수 있우면 좋겠다
+
+
+</script>
+</body>
+
+</html>

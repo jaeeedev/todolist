@@ -202,7 +202,7 @@
         }
 
         function init() {
-            const getList = JSON.parse(localStorage.getItem("localList"));
+            const getList = JSON.parse(localStorage.getItem("localList")) || [];
             list = getList;
             showList();
         }
